@@ -1,4 +1,4 @@
-import ActivityFeed from "@/components/home/ActivityFeed";
+import HomeTabs from "@/components/home/HomeTabs";
 import FAB from "@/components/ui/FAB";
 
 export default function Home() {
@@ -9,8 +9,8 @@ export default function Home() {
         <h1 className="text-lg font-bold text-zinc-100">ホーム</h1>
       </header>
 
-      <main className="px-4 py-4">
-        <ActivityFeed />
+      <main>
+        <HomeTabs />
       </main>
 
       <FAB />
