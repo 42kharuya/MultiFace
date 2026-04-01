@@ -682,7 +682,65 @@ const topic4_3Activities: Activity[] = [
   },
 ];
 
+// ─── user-1 の 2025 年分の履歴アクティビティ（カレンダー映え用）───────────
+const topic1_historicalActivities: Activity[] = [
+  // 2025年4月
+  { id: "act-h-1", topicId: "topic-1-1", userId: "user-1", body: "『火花』を読了。芸人の世界がこれほど繊細に描かれているとは思わなかった。", createdAt: "2025-04-07T21:00:00+09:00" },
+  { id: "act-h-2", topicId: "topic-1-4", userId: "user-1", body: "花見。近所の公園の桜がちょうど満開だった。来年もこの景色を見たい。", imageUrls: ["https://picsum.photos/seed/hanami/600/400"], createdAt: "2025-04-05T16:30:00+09:00" },
+  { id: "act-h-3", topicId: "topic-1-3", userId: "user-1", body: "春菊のごま和え。シンプルだけど旬の野菜はやっぱり美味しい。", createdAt: "2025-04-12T19:00:00+09:00" },
+  { id: "act-h-4", topicId: "topic-1-2", userId: "user-1", body: "『PERFECT DAYS』鑑賞。役所広司の演技と東京の光の描写が圧巻。", createdAt: "2025-04-20T22:30:00+09:00" },
+  { id: "act-h-5", topicId: "topic-1-4", userId: "user-1", body: "新年度スタート。今年度は気になったことをこまめに書き留めるようにしたい。", createdAt: "2025-04-01T23:00:00+09:00" },
+  // 2025年5月
+  { id: "act-h-6", topicId: "topic-1-1", userId: "user-1", body: "『ノルウェイの森』再読。10年ぶりに読むと主人公よりも登場人物の脇役が気になった。", createdAt: "2025-05-03T22:00:00+09:00" },
+  { id: "act-h-7", topicId: "topic-1-3", userId: "user-1", body: "筍ご飯。旬の時期にしか作れない一品。土鍋で炊くと香りが違う。", imageUrls: ["https://picsum.photos/seed/takenoko/600/400"], createdAt: "2025-05-10T19:30:00+09:00" },
+  { id: "act-h-8", topicId: "topic-1-4", userId: "user-1", body: "GW中に家族でキャンプへ。夜の星空が圧倒的だった。スマホを置いて過ごす時間の贅沢。", createdAt: "2025-05-04T20:00:00+09:00" },
+  { id: "act-h-9", topicId: "topic-1-2", userId: "user-1", body: "『インサイド・ヘッド2』公開！子供たちが大喜び。大人も感情移入できる良作。", createdAt: "2025-05-18T21:00:00+09:00" },
+  { id: "act-h-10", topicId: "topic-1-1", userId: "user-1", body: "『82年生まれ、キム・ジヨン』読了。疑似体験として読むことの意味を改めて感じた。", createdAt: "2025-05-25T23:00:00+09:00" },
+  // 2025年6月
+  { id: "act-h-11", topicId: "topic-1-3", userId: "user-1", body: "梅雨入り。蒸し暑い日には冷やし中華が正解。具材を多めに準備すると映える。", createdAt: "2025-06-08T18:30:00+09:00" },
+  { id: "act-h-12", topicId: "topic-1-4", userId: "user-1", body: "友人の結婚式。スピーチを頼まれた。緊張したけど無事に伝えられた気がする。", createdAt: "2025-06-14T23:30:00+09:00" },
+  { id: "act-h-13", topicId: "topic-1-2", userId: "user-1", body: "『哀れなるものたち』を再鑑賞。2回目の方がキャラクターの背景が見えてより深く楽しめた。", createdAt: "2025-06-22T22:00:00+09:00" },
+  { id: "act-h-14", topicId: "topic-1-1", userId: "user-1", body: "梅雨の読書週間。今月は短編集をいくつか読んだ。星野道夫の写真エッセイが特に良かった。", createdAt: "2025-06-28T21:30:00+09:00" },
+  // 2025年7月
+  { id: "act-h-15", topicId: "topic-1-4", userId: "user-1", body: "海水浴。海はやっぱり夏に限る。子供が初めて波に乗れた。", imageUrls: ["https://picsum.photos/seed/beach/600/400"], createdAt: "2025-07-20T17:00:00+09:00" },
+  { id: "act-h-16", topicId: "topic-1-3", userId: "user-1", body: "夏野菜カレー。トマト・なす・ズッキーニで作った夏限定レシピ。彩りが鮮やかで食欲が増す。", imageUrls: ["https://picsum.photos/seed/summercurry/600/400"], createdAt: "2025-07-06T19:30:00+09:00" },
+  { id: "act-h-17", topicId: "topic-1-1", userId: "user-1", body: "『夏への扉』を読んだ。SFの古典だけど今でも全然色褪せていない。ハインラインの着想力に感服。", createdAt: "2025-07-14T22:00:00+09:00" },
+  { id: "act-h-18", topicId: "topic-1-4", userId: "user-1", body: "花火大会。久しぶりに浴衣を着た。混雑しすぎていたけど、それも夏の思い出。", createdAt: "2025-07-26T23:00:00+09:00" },
+  // 2025年8月
+  { id: "act-h-19", topicId: "topic-1-2", userId: "user-1", body: "お盆休みに映画館で3本ハシゴ。夏は映画の季節。ポップコーン食べすぎた。", createdAt: "2025-08-14T21:30:00+09:00" },
+  { id: "act-h-20", topicId: "topic-1-3", userId: "user-1", body: "スイカゼリーを作った。見た目が涼やかで子供に大好評。夏の定番デザートになりそう。", imageUrls: ["https://picsum.photos/seed/watermelongelatin/600/400"], createdAt: "2025-08-03T16:00:00+09:00" },
+  { id: "act-h-21", topicId: "topic-1-4", userId: "user-1", body: "帰省。実家でのんびり過ごした。久しぶりに親の料理を食べると落ち着く。", createdAt: "2025-08-11T20:30:00+09:00" },
+  { id: "act-h-22", topicId: "topic-1-1", userId: "user-1", body: "積読してた『人類の星の時間』をやっと読了。短編集なのにそれぞれのスケールが大きい。", createdAt: "2025-08-24T23:00:00+09:00" },
+  { id: "act-h-23", topicId: "topic-1-4", userId: "user-1", body: "セミの声が少なくなってきた。夏の終わりを感じる。つい最近夏が始まった気がするのに。", createdAt: "2025-08-28T19:00:00+09:00" },
+  // 2025年9月
+  { id: "act-h-24", topicId: "topic-1-3", userId: "user-1", body: "栗ご飯。秋の訪れを感じるメニュー。栗をむく作業が大変だったが、食べると報われた。", imageUrls: ["https://picsum.photos/seed/chestnutrice/600/400"], createdAt: "2025-09-07T19:30:00+09:00" },
+  { id: "act-h-25", topicId: "topic-1-2", userId: "user-1", body: "映画館がすいてきた平日に『関心領域』を観た。これほど静かに恐怖を描いた映画は初めて。", createdAt: "2025-09-13T22:30:00+09:00" },
+  { id: "act-h-26", topicId: "topic-1-1", userId: "user-1", body: "読書の秋。今月は月5冊ペースで読む目標を立てた。まずは積読から消化。", createdAt: "2025-09-01T21:00:00+09:00" },
+  { id: "act-h-27", topicId: "topic-1-4", userId: "user-1", body: "彼岸花が咲いていた。毎年この時期になると必ず咲いているのが不思議で感慨深い。", createdAt: "2025-09-22T17:00:00+09:00" },
+  { id: "act-h-28", topicId: "topic-1-1", userId: "user-1", body: "『人間失格』を初めて読んだ。中学生の時に読まなくて良かったかもしれない。", createdAt: "2025-09-18T23:00:00+09:00" },
+  // 2025年10月
+  { id: "act-h-29", topicId: "topic-1-3", userId: "user-1", body: "さつまいもの炊き込みご飯。ほくほくの甘みが秋らしい。子供が「また作って」と言った。", createdAt: "2025-10-11T19:00:00+09:00" },
+  { id: "act-h-30", topicId: "topic-1-4", userId: "user-1", body: "旅行どころに紅葉狩りへ。今年は色づきが遅かったが、想像以上に绮麗だった。", imageUrls: ["https://picsum.photos/seed/koyo/600/400"], createdAt: "2025-10-19T16:30:00+09:00" },
+  { id: "act-h-31", topicId: "topic-1-2", userId: "user-1", body: "秋の映画祭でフランス映画特集。字幕を追うのが大変だったが2本完走。新しい監督を発見。", createdAt: "2025-10-05T21:30:00+09:00" },
+  { id: "act-h-32", topicId: "topic-1-1", userId: "user-1", body: "松尾芭蕉の俳句集を購入。秋に読む俳句は特別な味わいがある。", createdAt: "2025-10-26T22:00:00+09:00" },
+  { id: "act-h-33", topicId: "topic-1-4", userId: "user-1", body: "ハロウィンで子供たちといくつかの家を廻った。仮装のクオリティが年々上がっている気がする。", createdAt: "2025-10-31T21:00:00+09:00" },
+  // 2025年11月
+  { id: "act-h-34", topicId: "topic-1-1", userId: "user-1", body: "『存在と時間』に再挑戦。ハイデガーは難しいが少しずつ自分の言葉に落とせてきた気がする。", createdAt: "2025-11-08T23:00:00+09:00" },
+  { id: "act-h-35", topicId: "topic-1-3", userId: "user-1", body: "おでん解禁！大根・はんぺん・卵・こんにゃく・牛筋を朝から煮込む。夜には完璧な味に。", imageUrls: ["https://picsum.photos/seed/oden/600/400"], createdAt: "2025-11-02T20:00:00+09:00" },
+  { id: "act-h-36", topicId: "topic-1-4", userId: "user-1", body: "クリスマスに向けてイルミネーション巡りを計画中。今年はどこへ行こうか。", createdAt: "2025-11-15T21:00:00+09:00" },
+  { id: "act-h-37", topicId: "topic-1-2", userId: "user-1", body: "初めてMCUの映画を一気見した。世界観の広さに圧倒される。脱落しながらも楽しんだ。", createdAt: "2025-11-22T23:30:00+09:00" },
+  { id: "act-h-38", topicId: "topic-1-1", userId: "user-1", body: "今年読んだ本を振り返ってみた。思いのほか量が少なくて来年は目標を上げようと決意。", createdAt: "2025-11-30T22:00:00+09:00" },
+  // 2025年12月
+  { id: "act-h-39", topicId: "topic-1-3", userId: "user-1", body: "年末は恒例のローストチキン。今年は塩麹を使ってみたがジューシーさが段違いだった。", imageUrls: ["https://picsum.photos/seed/roastchicken/600/400"], createdAt: "2025-12-25T20:00:00+09:00" },
+  { id: "act-h-40", topicId: "topic-1-4", userId: "user-1", body: "大掃除完了。家の隅々まできれいにすると気持ちがリセットされる感覚がある。", createdAt: "2025-12-30T17:00:00+09:00" },
+  { id: "act-h-41", topicId: "topic-1-1", userId: "user-1", body: "正月用に古典を一冊購入。年始はゆっくり読書で過ごしたい。", createdAt: "2025-12-28T21:00:00+09:00" },
+  { id: "act-h-42", topicId: "topic-1-2", userId: "user-1", body: "今年の映画ベスト10を作った。邦画の充実ぶりが印象的な一年だった。", createdAt: "2025-12-15T22:30:00+09:00" },
+  { id: "act-h-43", topicId: "topic-1-4", userId: "user-1", body: "忘年会シーズン。久しぶりに会う友人たちと年末の雰囲気で盛り上がった。", createdAt: "2025-12-07T23:30:00+09:00" },
+  { id: "act-h-44", topicId: "topic-1-3", userId: "user-1", body: "年末の鍋パーティ。水炊きに柚子胡椒が合う。〆の雑炊まで完食。", createdAt: "2025-12-21T21:00:00+09:00" },
+];
+
 export const activities: Activity[] = [
+  ...topic1_historicalActivities,
   ...topic1_1Activities,
   ...topic1_2Activities,
   ...topic1_3Activities,
