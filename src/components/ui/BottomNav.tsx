@@ -59,7 +59,7 @@ const BottomNav = () => {
                       isActive && "[&>*]:fill-current",
                     )}
                   />
-                  <span className="transition-all duration-200">
+                  <span className="whitespace-nowrap transition-all duration-200">
                     {item.label}
                   </span>
                 </span>
