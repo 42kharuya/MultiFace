@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { type Activity } from "@/types/activity";
 import { type User } from "@/types/user";
 import Avatar from "./Avatar";
@@ -73,7 +74,13 @@ const ActivityCard = ({
             {user.badge && <Badge emoji={user.badge} />}
           </div>
           <div className="flex items-center gap-2">
-            <TopicChip title={topicTitle} topicId={topicId} />
+            <Link href={`/topics/${topicId}`}>
+              <TopicChip
+                title={topicTitle}
+                topicId={topicId}
+                className="transition-opacity hover:opacity-80"
+              />
+            </Link>
             <time
               dateTime={activity.createdAt}
               className="text-xs text-zinc-500"
