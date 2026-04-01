@@ -2,19 +2,20 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { Home, Bell, Search, User, type LucideIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 type NavItem = {
   href: string;
   label: string;
-  icon: string;
+  icon: LucideIcon;
 };
 
 const NAV_ITEMS: NavItem[] = [
-  { href: "/", label: "ホーム", icon: "🏠" },
-  { href: "/subscriptions", label: "サブスク", icon: "🔔" },
-  { href: "/search", label: "検索", icon: "🔍" },
-  { href: "/profile", label: "プロフィール", icon: "👤" },
+  { href: "/", label: "ホーム", icon: Home },
+  { href: "/subscriptions", label: "サブスク", icon: Bell },
+  { href: "/search", label: "検索", icon: Search },
+  { href: "/profile", label: "プロフィール", icon: User },
 ];
 
 const BottomNav = () => {
@@ -25,6 +26,7 @@ const BottomNav = () => {
       <ul className="flex w-full max-w-sm items-center">
         {NAV_ITEMS.map((item) => {
           const isActive = pathname === item.href;
+          const Icon = item.icon;
           return (
             <li key={item.href} className="flex-1">
               <Link
@@ -36,7 +38,7 @@ const BottomNav = () => {
                     : "text-zinc-500 hover:text-zinc-300",
                 )}
               >
-                <span className="text-xl leading-none">{item.icon}</span>
+                <Icon size={22} strokeWidth={isActive ? 2.5 : 2} />
                 <span>{item.label}</span>
               </Link>
             </li>
