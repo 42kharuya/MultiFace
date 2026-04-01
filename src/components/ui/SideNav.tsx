@@ -8,6 +8,7 @@ import {
   Bell,
   Search,
   User,
+  Layers,
   Pencil,
   type LucideIcon,
 } from "lucide-react";
@@ -23,6 +24,7 @@ type NavItem = {
 const NAV_ITEMS: NavItem[] = [
   { href: "/", label: "ホーム", icon: Home },
   { href: "/subscriptions", label: "サブスク", icon: Bell },
+  { href: "/topics", label: "トピック", icon: Layers },
   { href: "/search", label: "検索", icon: Search },
   { href: "/profile", label: "プロフィール", icon: User },
 ];
@@ -47,7 +49,10 @@ const SideNav = () => {
         {/* ナビゲーションアイテム */}
         <ul className="flex flex-col gap-1">
           {NAV_ITEMS.map((item) => {
-            const isActive = pathname === item.href;
+            const isActive =
+            item.href === "/"
+              ? pathname === "/"
+              : pathname === item.href || pathname.startsWith(item.href + "/");
             const Icon = item.icon;
             return (
               <li key={item.href}>
