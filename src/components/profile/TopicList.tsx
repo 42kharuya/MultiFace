@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { type Topic } from "@/types/topic";
 
@@ -16,13 +17,25 @@ const TopicList = ({ topics }: TopicListProps) => {
           <Link
             key={topic.id}
             href={`/topics/${topic.id}`}
-            className="flex items-center gap-2.5 rounded-xl bg-zinc-800/60 p-3.5 transition-colors hover:bg-zinc-700/80 active:bg-zinc-700"
+            className="flex items-center gap-2.5 overflow-hidden rounded-xl bg-zinc-800/60 p-3.5 transition-colors hover:bg-zinc-700/80 active:bg-zinc-700"
           >
-            {/* 絵文字アイコン */}
-            {topic.emoji && (
-              <span className="text-2xl leading-none flex-shrink-0" aria-hidden="true">
-                {topic.emoji}
-              </span>
+            {/* 画像サムネイル or 絵文字アイコン */}
+            {topic.imageUrl ? (
+              <div className="relative size-12 flex-shrink-0 overflow-hidden rounded-lg">
+                <Image
+                  src={topic.imageUrl}
+                  alt={topic.title}
+                  fill
+                  className="object-cover"
+                  sizes="48px"
+                />
+              </div>
+            ) : (
+              topic.emoji && (
+                <span className="flex-shrink-0 text-2xl leading-none" aria-hidden="true">
+                  {topic.emoji}
+                </span>
+              )
             )}
             {/* タイトル */}
             <span className="truncate text-sm font-medium text-zinc-100">

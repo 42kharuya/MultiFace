@@ -32,6 +32,7 @@ const user1Topics: Topic[] = [
     title: "今日の出来事",
     emoji: "📝",
     description: "日々の出来事や気づきをゆるく書き留める場所。",
+    imageUrl: "https://picsum.photos/seed/diary/400/200",
   },
 ];
 

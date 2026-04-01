@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { topics } from "@/mocks/topics";
 import { currentUser } from "@/mocks/users";
@@ -26,27 +27,46 @@ const TopicsPage = () => {
               <Link
                 key={topic.id}
                 href={`/topics/${topic.id}`}
-                className="flex flex-col gap-2 rounded-xl bg-zinc-800/60 p-4 transition-colors hover:bg-zinc-700/80 active:bg-zinc-700"
+                className="flex flex-col overflow-hidden rounded-xl bg-zinc-800/60 transition-colors hover:bg-zinc-700/80 active:bg-zinc-700"
               >
-                {/* 絵文字アイコン */}
-                {topic.emoji && (
-                  <span
-                    className="text-3xl leading-none"
-                    aria-hidden="true"
-                  >
-                    {topic.emoji}
-                  </span>
+                {/* テーマ画像 or 絵文字フォールバック */}
+                {topic.imageUrl ? (
+                  <div className="relative aspect-video w-full">
+                    <Image
+                      src={topic.imageUrl}
+                      alt={topic.title}
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 768px) 50vw, 200px"
+                    />
+                  </div>
+                ) : (
+                  <div className="flex aspect-video w-full items-center justify-center bg-zinc-700/60">
+                    {topic.emoji && (
+                      <span className="text-4xl leading-none" aria-hidden="true">
+                        {topic.emoji}
+                      </span>
+                    )}
+                  </div>
                 )}
-                {/* タイトル */}
-                <span className="truncate text-sm font-semibold text-zinc-100">
-                  {topic.title}
-                </span>
-                {/* 説明 */}
-                {topic.description && (
-                  <span className="line-clamp-2 text-xs text-zinc-400">
-                    {topic.description}
-                  </span>
-                )}
+                {/* カード本文 */}
+                <div className="flex flex-col gap-1 p-3">
+                  <div className="flex items-center gap-1.5">
+                    {topic.emoji && (
+                      <span className="text-base leading-none" aria-hidden="true">
+                        {topic.emoji}
+                      </span>
+                    )}
+                    <span className="truncate text-sm font-semibold text-zinc-100">
+                      {topic.title}
+                    </span>
+                  </div>
+                  {topic.description && (
+                    <span className="line-clamp-2 text-xs text-zinc-400">
+                      {topic.description}
+                    </span>
+                  )}
+                </div>
               </Link>
             ))}
           </div>
