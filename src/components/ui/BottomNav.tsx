@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, Bell, Search, User, type LucideIcon } from "lucide-react";
+import { Home, Bell, Search, User, Layers, type LucideIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 type NavItem = {
@@ -14,6 +14,7 @@ type NavItem = {
 const NAV_ITEMS: NavItem[] = [
   { href: "/", label: "ホーム", icon: Home },
   { href: "/subscriptions", label: "サブスク", icon: Bell },
+  { href: "/topics", label: "トピック", icon: Layers },
   { href: "/search", label: "検索", icon: Search },
   { href: "/profile", label: "プロフィール", icon: User },
 ];
@@ -25,7 +26,10 @@ const BottomNav = () => {
     <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 flex justify-center border-t border-zinc-700/60 bg-zinc-900/95 backdrop-blur-sm">
       <ul className="flex w-full max-w-sm items-center">
         {NAV_ITEMS.map((item) => {
-          const isActive = pathname === item.href;
+          const isActive =
+            item.href === "/"
+              ? pathname === "/"
+              : pathname === item.href || pathname.startsWith(item.href + "/");
           const Icon = item.icon;
           return (
             <li key={item.href} className="flex-1">
@@ -41,7 +45,7 @@ const BottomNav = () => {
                 {/* アクティブインジケーター：背景ピル */}
                 <span
                   className={cn(
-                    "flex flex-col items-center gap-0.5 rounded-xl px-5 py-1.5 text-xs font-medium transition-all duration-200",
+                    "flex flex-col items-center gap-0.5 rounded-xl px-3 py-1.5 text-xs font-medium transition-all duration-200",
                     isActive
                       ? "bg-violet-500/20"
                       : "bg-transparent",
@@ -55,7 +59,7 @@ const BottomNav = () => {
                       isActive && "[&>*]:fill-current",
                     )}
                   />
-                  <span className="transition-all duration-200">
+                  <span className="whitespace-nowrap transition-all duration-200">
                     {item.label}
                   </span>
                 </span>
