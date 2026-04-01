@@ -32,14 +32,33 @@ const BottomNav = () => {
               <Link
                 href={item.href}
                 className={cn(
-                  "flex flex-col items-center gap-0.5 py-2.5 text-xs font-medium transition-colors",
+                  "flex flex-col items-center py-2 transition-colors duration-200",
                   isActive
                     ? "text-violet-400"
                     : "text-zinc-500 hover:text-zinc-300",
                 )}
               >
-                <Icon size={22} strokeWidth={isActive ? 2.5 : 2} />
-                <span>{item.label}</span>
+                {/* アクティブインジケーター：背景ピル */}
+                <span
+                  className={cn(
+                    "flex flex-col items-center gap-0.5 rounded-xl px-5 py-1.5 text-xs font-medium transition-all duration-200",
+                    isActive
+                      ? "bg-violet-500/20"
+                      : "bg-transparent",
+                  )}
+                >
+                  <Icon
+                    size={22}
+                    strokeWidth={isActive ? 2.5 : 2}
+                    className={cn(
+                      "transition-all duration-200",
+                      isActive && "[&>*]:fill-current",
+                    )}
+                  />
+                  <span className="transition-all duration-200">
+                    {item.label}
+                  </span>
+                </span>
               </Link>
             </li>
           );
