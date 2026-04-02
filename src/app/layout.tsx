@@ -10,7 +10,7 @@ const geistSans = Geist({
 });
 
 export const metadata: Metadata = {
-  title: "Tricle",
+  title: "Tricle_Mock",
   description: "アクティビティ記録サービス Tricle のモック",
 };
 
