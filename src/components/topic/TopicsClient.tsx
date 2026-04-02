@@ -28,9 +28,9 @@ const TopicsClient = ({ initialTopics }: Props) => {
           <button
             type="button"
             onClick={() => setIsModalOpen(true)}
-            className="flex items-center gap-1 rounded-lg px-3 py-1.5 text-sm font-medium text-violet-400 transition-colors hover:bg-violet-600/10 hover:text-violet-300 active:bg-violet-600/20"
+            className="flex items-center gap-1.5 rounded-full bg-violet-600 px-4 py-1.5 text-xs font-semibold text-white shadow-md shadow-violet-900/40 transition-all hover:bg-violet-500 hover:shadow-violet-700/50 active:scale-95 active:bg-violet-700"
           >
-            <Plus size={16} aria-hidden="true" />
+            <Plus size={14} aria-hidden="true" strokeWidth={2.5} />
             新規作成
           </button>
         </div>

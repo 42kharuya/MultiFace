@@ -184,14 +184,24 @@ const PostModal = ({ isOpen, onClose, defaultTopicId }: Props) => {
               disabled={images.length >= MAX_IMAGES}
               onClick={() => fileInputRef.current?.click()}
               className={cn(
-                "flex items-center gap-1.5 rounded-lg px-3 py-2 text-sm transition-colors w-fit",
+                "flex items-center gap-2 rounded-xl border px-4 py-2 text-sm font-medium transition-all duration-200 w-fit",
                 images.length >= MAX_IMAGES
-                  ? "cursor-not-allowed text-zinc-600"
-                  : "text-zinc-400 hover:bg-zinc-800 hover:text-zinc-100",
+                  ? "cursor-not-allowed border-zinc-800 text-zinc-600"
+                  : "border-zinc-700 text-zinc-400 hover:border-violet-500 hover:text-violet-400 hover:bg-violet-500/10 active:scale-95",
               )}
             >
-              <ImagePlus size={16} />
+              <ImagePlus size={15} />
               写真を追加
+              {images.length > 0 && (
+                <span className={cn(
+                  "ml-0.5 rounded-full px-1.5 py-0.5 text-xs font-bold leading-none",
+                  images.length >= MAX_IMAGES
+                    ? "bg-zinc-800 text-zinc-600"
+                    : "bg-violet-500/20 text-violet-400",
+                )}>
+                  {images.length}/{MAX_IMAGES}
+                </span>
+              )}
             </button>
             {/* サムネイルプレビュー */}
             {images.length > 0 && (

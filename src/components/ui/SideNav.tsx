@@ -42,7 +42,7 @@ const SideNav = () => {
         {/* ロゴ・アプリ名 */}
         <div className="px-3 pb-4">
           <span className="text-xl font-bold text-violet-400 tracking-tight">
-            Tricle
+            Tricle_Mock
           </span>
         </div>
 
