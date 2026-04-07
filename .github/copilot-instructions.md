@@ -2,11 +2,19 @@
 
 ## プロジェクト概要
 
-このプロジェクトは、サービス終了した SNS アプリ「Tricle」の UI モック実装です。
-バックエンドは実装せず、フロントエンドの見た目・操作感の再現に集中します。
+このプロジェクトは、SNS アプリ「**MultiFace**」のフロントエンドモック実装です。
+Tricle というアプリをベースに発展させた新しいサービスで、「フェイス（多面性）」という概念を中心に据えています。
 
-Tricle の UI 仕様・機能詳細は [`docs/TRICLE.md`](../docs/TRICLE.md) に随時追記されます。
-実装前に必ず参照し、仕様と齟齬がないか確認してください。
+将来的には `docs/ARCHITECTURE.md` に記載された Hono バックエンドと統合する予定のため、**バックエンド統合時に差し替えやすい設計**を意識して実装します。
+
+仕様・設計は以下のドキュメントを参照してください。実装前に必ず確認し、仕様と齟齬がないか確認してください。
+
+| ドキュメント | 内容 |
+|---|---|
+| [`docs/MULTI_FACE.md`](../docs/MULTI_FACE.md) | MultiFace の仕様（主要概念・画面構成・機能一覧） |
+| [`docs/FRONTEND_ARCHITECTURE.md`](../docs/FRONTEND_ARCHITECTURE.md) | フロントエンド設計方針（Repository パターン・ディレクトリ構成など） |
+| [`docs/ARCHITECTURE.md`](../docs/ARCHITECTURE.md) | バックエンド統合時の設計方針（Hono バックエンドとの統合） |
+| [`docs/TRICLE.md`](../docs/TRICLE.md) | 元となった Tricle の仕様（参考） |
 
 ## 技術スタック
 
@@ -19,18 +27,26 @@ Tricle の UI 仕様・機能詳細は [`docs/TRICLE.md`](../docs/TRICLE.md) に
 
 ## 実装方針
 
-### バックエンドなし・モックデータで動作させる
+### バックエンドなし・モックデータで動作させる（ただし統合を見据えた設計で）
 
 - API 通信は実装しない
 - データはすべてモック（`src/mocks/` 以下に定義）で賄う
 - `fetch` や `axios` は使用しない
 - サーバーアクション・API Routes も原則使用しない
+- **コンポーネントから `src/mocks/` を直接 import しない**。必ず `src/repositories/` 経由でデータを取得する（将来の API 差し替えを容易にするため）
 
-### UI 再現を最優先する
+### Repository パターンを遵守する
 
-- Tricle の実際の UI に忠実に再現することを目指す
+- `src/repositories/` 以下に各ドメインのデータ取得ロジックを定義する
+- Repository の型（インターフェース）を先に定義し、モック実装を後から差し込む形にする
+- 詳細は [`docs/FRONTEND_ARCHITECTURE.md`](../docs/FRONTEND_ARCHITECTURE.md) を参照
+
+### MultiFace の UI 実装を最優先する
+
+- `docs/MULTI_FACE.md` の仕様に忠実に実装することを目指す
 - 仕様が不明な箇所はユーザーに確認してから実装する
 - デザインの細部（余白、フォントサイズ、色）を丁寧に作り込む
+- 命名は MultiFace の用語（`face` / `faceId`）を使い、Tricle の用語（`topic` / `topicId`）は段階的に移行する
 
 ### コンポーネント設計
 
@@ -82,15 +98,21 @@ src/
 ├── components/
 │   ├── ui/               # 汎用 UI コンポーネント
 │   └── <feature>/        # 機能別コンポーネント
-├── mocks/                # モックデータ
+├── repositories/         # ★ データ取得レイヤー（mocks/ の直接 import 禁止）
+├── mocks/                # モックデータ（repositories/ からのみ参照する）
 ├── types/                # 型定義
 └── lib/                  # ユーティリティ関数
 ```
 
+詳細なディレクトリ構成は [`docs/FRONTEND_ARCHITECTURE.md`](../docs/FRONTEND_ARCHITECTURE.md) を参照。
+
 ## AI への指示
 
-- 実装の前に `docs/TRICLE.md` を確認し、仕様に沿った実装をする
+- 実装の前に `docs/MULTI_FACE.md` を確認し、MultiFace の仕様に沿った実装をする
+- フロントエンドの設計方針は `docs/FRONTEND_ARCHITECTURE.md` を参照する
 - 仕様に記載がない UI の詳細はユーザーに確認する
+- **`src/mocks/` をコンポーネントや `page.tsx` から直接 import するコードを書かない**。`src/repositories/` 経由を徹底する
+- Tricle の命名（`Topic`・`topicId`）ではなく MultiFace の命名（`Face`・`faceId`）を使う
 - バックエンド処理・API・DB に関する実装は提案・実装しない
 - コードの説明は日本語で行う
 - コミットメッセージは日本語で提案する
