@@ -1,5 +1,5 @@
 import SubscriptionFeed from "@/components/subscriptions/SubscriptionFeed";
-import { subscribedFaceIds } from "@/mocks/subscriptions";
+import { subscriptionRepository } from "@/repositories/subscription-repository";
 import FAB from "@/components/ui/FAB";
 
 export default function SubscriptionsPage() {
@@ -10,7 +10,7 @@ export default function SubscriptionsPage() {
         <div className="flex items-center justify-between">
           <h1 className="text-lg font-bold text-zinc-100">サブスク</h1>
           <span className="text-xs text-zinc-500">
-            {subscribedFaceIds.length} フェイスをサブスク中
+            {subscriptionRepository.getSubscribedFaceIds().length} フェイスをサブスク中
           </span>
         </div>
       </header>
