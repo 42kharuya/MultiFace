@@ -1,7 +1,7 @@
 import { activities } from "@/mocks/activities";
 import { topics } from "@/mocks/topics";
 import { users } from "@/mocks/users";
-import { subscribedTopicIds } from "@/mocks/subscriptions";
+import { subscribedFaceIds } from "@/mocks/subscriptions";
 import ActivityCard from "@/components/ui/ActivityCard";
 
 /**
@@ -14,7 +14,7 @@ import ActivityCard from "@/components/ui/ActivityCard";
 const SubscriptionFeed = () => {
   // サブスクライブ中トピックのアクティビティを新しい順に並べる
   const subscribedActivities = activities
-    .filter((a) => subscribedTopicIds.includes(a.faceId))
+    .filter((a) => subscribedFaceIds.includes(a.faceId))
     .sort(
       (a, b) =>
         new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),

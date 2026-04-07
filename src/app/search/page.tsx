@@ -4,7 +4,7 @@ import { useState, useMemo } from "react";
 import { activities } from "@/mocks/activities";
 import { topics } from "@/mocks/topics";
 import { users, currentUser } from "@/mocks/users";
-import { subscribedTopicIds } from "@/mocks/subscriptions";
+import { subscribedFaceIds } from "@/mocks/subscriptions";
 import SearchBar from "@/components/search/SearchBar";
 import SearchScopeSelector, {
   type SearchScope,
@@ -28,7 +28,7 @@ export default function SearchPage() {
     // ① スコープでフィルタ
     const scopedActivities = activities.filter((a) => {
       if (scope === "mine") return a.userId === currentUser.id;
-      if (scope === "subscribed") return subscribedTopicIds.includes(a.faceId);
+      if (scope === "subscribed") return subscribedFaceIds.includes(a.faceId);
       return true; // "all"
     });
 
