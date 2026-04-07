@@ -1,6 +1,6 @@
 export type Activity = {
   id: string;
-  topicId: string;
+  faceId: string;
   userId: string;
   body: string;
   imageUrls?: string[];

@@ -14,7 +14,7 @@ import ActivityCard from "@/components/ui/ActivityCard";
 const SubscriptionFeed = () => {
   // サブスクライブ中トピックのアクティビティを新しい順に並べる
   const subscribedActivities = activities
-    .filter((a) => subscribedTopicIds.includes(a.topicId))
+    .filter((a) => subscribedTopicIds.includes(a.faceId))
     .sort(
       (a, b) =>
         new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
@@ -41,7 +41,7 @@ const SubscriptionFeed = () => {
   return (
     <ul className="flex flex-col gap-3">
       {subscribedActivities.map((activity) => {
-        const topic = topicMap.get(activity.topicId);
+        const topic = topicMap.get(activity.faceId);
         const user = userMap.get(activity.userId);
         if (!topic || !user) return null;
         return (

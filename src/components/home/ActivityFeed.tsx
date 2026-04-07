@@ -30,7 +30,7 @@ const ActivityFeed = () => {
   return (
     <ul className="flex flex-col gap-3">
       {myActivities.map((activity) => {
-        const topic = topicMap.get(activity.topicId);
+        const topic = topicMap.get(activity.faceId);
         if (!topic) return null;
         return (
           <li key={activity.id}>

@@ -13,7 +13,7 @@ type TopicActivityFeedProps = {
 const TopicActivityFeed = ({ topic }: TopicActivityFeedProps) => {
   // 該当トピックのアクティビティを新しい順に並べる
   const topicActivities = activities
-    .filter((a) => a.topicId === topic.id)
+    .filter((a) => a.faceId === topic.id)
     .sort(
       (a, b) =>
         new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),

@@ -28,7 +28,7 @@ export default function SearchPage() {
     // ① スコープでフィルタ
     const scopedActivities = activities.filter((a) => {
       if (scope === "mine") return a.userId === currentUser.id;
-      if (scope === "subscribed") return subscribedTopicIds.includes(a.topicId);
+      if (scope === "subscribed") return subscribedTopicIds.includes(a.faceId);
       return true; // "all"
     });
 
@@ -46,7 +46,7 @@ export default function SearchPage() {
     // ④ user / topic を解決して返す
     return matched.flatMap((activity) => {
       const user = userMap.get(activity.userId);
-      const topic = topicMap.get(activity.topicId);
+      const topic = topicMap.get(activity.faceId);
       if (!user || !topic) return [];
       return [{ activity, user, topic }];
     });

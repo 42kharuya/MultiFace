@@ -29,7 +29,7 @@ const TimelineFeed = () => {
   return (
     <ul className="flex flex-col gap-3">
       {sortedActivities.map((activity) => {
-        const topic = topicMap.get(activity.topicId);
+        const topic = topicMap.get(activity.faceId);
         const user = userMap.get(activity.userId);
         if (!topic || !user) return null;
         return (
