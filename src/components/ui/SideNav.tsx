@@ -2,14 +2,13 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Home, Bell, Search, Rss, Plus, type LucideIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import FaceNavItem from "@/components/ui/FaceNavItem";
 import CreateFaceModal from "@/components/face/CreateFaceModal";
 import { faceRepository } from "@/repositories/face-repository";
 import { userRepository } from "@/repositories/user-repository";
-import { useDetailPanel } from "@/lib/detail-panel-context";
 import type { Face } from "@/types/face";
 
 type NavItem = {
@@ -27,13 +26,16 @@ const NAV_ITEMS: NavItem[] = [
 
 const SideNav = () => {
   const pathname = usePathname();
+  const router = useRouter();
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
-  const { openFace, state } = useDetailPanel();
 
   const currentUser = userRepository.getCurrentUser();
   const faces = faceRepository.listByUserId(currentUser.id);
 
-  const activeFaceId = state.type === "face" ? state.faceId : undefined;
+  // パス名からアクティブなフェイスIDを導出
+  const activeFaceId = pathname.startsWith("/faces/")
+    ? pathname.split("/")[2]
+    : undefined;
 
   const handleOpenCreateModal = () => setIsCreateModalOpen(true);
   const handleCloseCreateModal = () => setIsCreateModalOpen(false);
@@ -43,7 +45,7 @@ const SideNav = () => {
   };
 
   const handleFaceNavItemClick = (face: Face) => {
-    openFace(face.id);
+    router.push(`/faces/${face.id}`);
   };
 
   return (
