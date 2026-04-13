@@ -9,6 +9,7 @@ import Avatar from "./Avatar";
 import Badge from "./Badge";
 import FaceChip from "./FaceChip";
 import { cn } from "@/lib/utils";
+import { formatRelativeTime } from "@/lib/format-relative-time";
 
 type ActivityCardProps = {
   activity: Activity;
@@ -22,28 +23,6 @@ type ActivityCardProps = {
 };
 
 const COLLAPSE_THRESHOLD = 200;
-
-/** ISO 8601 文字列を「N分前」「N時間前」「N日前」などに変換 */
-const formatRelativeTime = (isoString: string): string => {
-  const now = new Date();
-  const date = new Date(isoString);
-  const diffMs = now.getTime() - date.getTime();
-  const diffMin = Math.floor(diffMs / 60_000);
-  const diffHour = Math.floor(diffMin / 60);
-  const diffDay = Math.floor(diffHour / 24);
-
-  if (diffMin < 1) return "たった今";
-  if (diffMin < 60) return `${diffMin}分前`;
-  if (diffHour < 24) return `${diffHour}時間前`;
-  if (diffDay < 30) return `${diffDay}日前`;
-
-  // それ以外は日付表示
-  return date.toLocaleDateString("ja-JP", {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-  });
-};
 
 const ActivityCard = ({
   activity,
