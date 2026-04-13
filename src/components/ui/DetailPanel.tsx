@@ -1,7 +1,7 @@
-import React from "react";
+import type { ReactNode } from "react";
 
 type DetailPanelProps = {
-  content?: React.ReactNode;
+  content?: ReactNode;
   placeholderEmoji?: string;
   placeholderMessage?: string;
 };
