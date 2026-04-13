@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { X } from "lucide-react";
 import { activityRepository } from "@/repositories/activity-repository";
 import { faceRepository } from "@/repositories/face-repository";
@@ -111,6 +112,14 @@ const ActivityDetail = ({ activityId }: ActivityDetailProps) => {
             ))}
           </div>
         )}
+
+        {/* フェイスへのリンク */}
+        <Link
+          href={`/faces/${activity.faceId}`}
+          className="mt-2 self-start text-xs text-violet-400 hover:text-violet-300 transition-colors"
+        >
+          → このフェイスを見る
+        </Link>
       </div>
     </div>
   );

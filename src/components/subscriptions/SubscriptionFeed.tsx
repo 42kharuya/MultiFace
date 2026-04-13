@@ -1,9 +1,12 @@
+"use client";
+
 import Link from "next/link";
 import { activityRepository } from "@/repositories/activity-repository";
 import { faceRepository } from "@/repositories/face-repository";
 import { userRepository } from "@/repositories/user-repository";
 import { subscriptionRepository } from "@/repositories/subscription-repository";
 import ActivityCard from "@/components/ui/ActivityCard";
+import { useDetailPanel } from "@/lib/detail-panel-context";
 
 /**
  * サブスク画面フィード。
@@ -13,6 +16,8 @@ import ActivityCard from "@/components/ui/ActivityCard";
  * 各カードには「誰の・何のフェイスの投稿か」を明示する。
  */
 const SubscriptionFeed = () => {
+  const { openActivity } = useDetailPanel();
+
   // サブスクライブ中フェイスID一覧をリポジトリ経由で取得
   const subscribedFaceIds = subscriptionRepository.getSubscribedFaceIds();
 
@@ -61,6 +66,7 @@ const SubscriptionFeed = () => {
               user={user}
               faceTitle={`${face.emoji ?? ""} ${face.name}`.trim()}
               faceId={face.id}
+              onClick={() => openActivity(activity.id)}
             />
           </li>
         );
