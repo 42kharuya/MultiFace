@@ -5,6 +5,7 @@ import BottomNav from "@/components/ui/BottomNav";
 import SideNav from "@/components/ui/SideNav";
 import TopBar from "@/components/ui/TopBar";
 import DetailPanel from "@/components/ui/DetailPanel";
+import { DetailPanelProvider } from "@/lib/detail-panel-context";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -30,19 +31,21 @@ export default function RootLayout({
       <body className="min-h-full bg-zinc-950 text-zinc-100">
         {/* PC: SideNav（左）+ TopBar / MainColumn / DetailPanel（右）の3カラム */}
         {/* モバイル: BottomNav + 1カラム */}
-        <div className="flex min-h-screen w-full">
-          <SideNav />
-          <div className="flex flex-col flex-1 min-w-0">
-            <TopBar />
-            <div className="flex flex-1 overflow-hidden">
-              <main className="flex-1 min-w-0 overflow-y-auto border-r border-zinc-800 pb-16 md:pb-0">
-                {children}
-              </main>
-              <DetailPanel />
+        <DetailPanelProvider>
+          <div className="flex min-h-screen w-full">
+            <SideNav />
+            <div className="flex flex-col flex-1 min-w-0">
+              <TopBar />
+              <div className="flex flex-1 overflow-hidden">
+                <main className="flex-1 min-w-0 overflow-y-auto border-r border-zinc-800 pb-16 md:pb-0">
+                  {children}
+                </main>
+                <DetailPanel />
+              </div>
             </div>
           </div>
-        </div>
-        <BottomNav />
+          <BottomNav />
+        </DetailPanelProvider>
       </body>
     </html>
   );
