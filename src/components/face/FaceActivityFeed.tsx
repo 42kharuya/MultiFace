@@ -1,6 +1,9 @@
+"use client";
+
 import { type Face } from "@/types/face";
 import { activityRepository } from "@/repositories/activity-repository";
 import { userRepository } from "@/repositories/user-repository";
+import { useDetailPanel } from "@/lib/detail-panel-context";
 import UIActivityCard from "@/components/ui/ActivityCard";
 
 type FaceActivityFeedProps = {
@@ -11,6 +14,8 @@ type FaceActivityFeedProps = {
  * 指定フェイスに属するアクティビティを時系列降順で表示するフィード。
  */
 const FaceActivityFeed = ({ face }: FaceActivityFeedProps) => {
+  const { openActivity } = useDetailPanel();
+
   // 該当フェイスのアクティビティを取得（Repository 経由・降順済み）
   const faceActivities = activityRepository.listByFaceId(face.id);
 
@@ -39,6 +44,7 @@ const FaceActivityFeed = ({ face }: FaceActivityFeedProps) => {
               user={user}
               faceTitle={faceTitle}
               faceId={face.id}
+              onClick={() => openActivity(activity.id)}
             />
           </li>
         );

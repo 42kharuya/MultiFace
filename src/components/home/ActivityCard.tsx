@@ -9,13 +9,15 @@ type Props = {
   user: User;
   /** true のとき最初の画像を優先読み込み（LCP 対策） */
   priority?: boolean;
+  /** クリック時のコールバック（DetailPanel 連携用） */
+  onClick?: () => void;
 };
 
 /**
  * ホーム画面用の ActivityCard。
  * ui/ActivityCard にフェイス情報を解決して渡すラッパー。
  */
-const ActivityCard = ({ activity, face, user, priority = false }: Props) => {
+const ActivityCard = ({ activity, face, user, priority = false, onClick }: Props) => {
   const faceTitle = [face.emoji, face.name].filter(Boolean).join(" ");
   return (
     <UIActivityCard
@@ -24,6 +26,7 @@ const ActivityCard = ({ activity, face, user, priority = false }: Props) => {
       faceTitle={faceTitle}
       faceId={face.id}
       priority={priority}
+      onClick={onClick}
     />
   );
 };

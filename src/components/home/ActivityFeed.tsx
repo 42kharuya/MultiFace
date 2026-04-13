@@ -1,6 +1,9 @@
+"use client";
+
 import { activityRepository } from "@/repositories/activity-repository";
 import { faceRepository } from "@/repositories/face-repository";
 import { userRepository } from "@/repositories/user-repository";
+import { useDetailPanel } from "@/lib/detail-panel-context";
 import ActivityCard from "./ActivityCard";
 
 type ActivityFeedProps = {
@@ -14,6 +17,7 @@ type ActivityFeedProps = {
  * selectedFaceId が指定されている場合は該当フェイスのみに絞り込む。
  */
 const ActivityFeed = ({ selectedFaceId }: ActivityFeedProps) => {
+  const { openActivity } = useDetailPanel();
   const user = userRepository.getCurrentUser();
 
   const allActivities = activityRepository.listByUserId(user.id);
@@ -49,6 +53,7 @@ const ActivityFeed = ({ selectedFaceId }: ActivityFeedProps) => {
               face={face}
               user={user}
               priority={index === 0}
+              onClick={() => openActivity(activity.id)}
             />
           </li>
         );

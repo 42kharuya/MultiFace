@@ -20,6 +20,8 @@ type ActivityCardProps = {
   /** true のとき最初の画像を優先読み込み（LCP 対策） */
   priority?: boolean;
   className?: string;
+  /** クリック時のコールバック（DetailPanel 連携用） */
+  onClick?: () => void;
 };
 
 const COLLAPSE_THRESHOLD = 200;
@@ -31,6 +33,7 @@ const ActivityCard = ({
   faceId,
   priority = false,
   className,
+  onClick,
 }: ActivityCardProps) => {
   const isLong = activity.body.length > COLLAPSE_THRESHOLD;
   const [expanded, setExpanded] = useState(false);
@@ -42,8 +45,22 @@ const ActivityCard = ({
 
   return (
     <article
+      onClick={onClick}
+      role={onClick ? "button" : undefined}
+      tabIndex={onClick ? 0 : undefined}
+      onKeyDown={
+        onClick
+          ? (e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                onClick();
+              }
+            }
+          : undefined
+      }
       className={cn(
         "flex flex-col gap-3 rounded-2xl bg-zinc-800/60 p-4 transition hover:bg-zinc-800 hover:scale-[1.01] active:scale-[0.99]",
+        onClick && "cursor-pointer",
         className,
       )}
     >
@@ -56,7 +73,7 @@ const ActivityCard = ({
             {user.badge && <Badge emoji={user.badge} />}
           </div>
           <div className="flex items-center gap-2">
-            <Link href={`/faces/${faceId}`}>
+            <Link href={`/faces/${faceId}`} onClick={(e) => e.stopPropagation()}>
               <FaceChip
                 title={faceTitle}
                 faceId={faceId}
@@ -82,7 +99,10 @@ const ActivityCard = ({
       {isLong && (
         <button
           type="button"
-          onClick={() => setExpanded((prev) => !prev)}
+          onClick={(e) => {
+              e.stopPropagation();
+              setExpanded((prev) => !prev);
+            }}
           className="self-start text-xs font-medium text-violet-400 hover:text-violet-300 transition-colors"
         >
           {expanded ? "折りたたむ" : "もっと見る"}

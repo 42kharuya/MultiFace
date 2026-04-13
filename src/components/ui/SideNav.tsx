@@ -2,13 +2,14 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Home, Bell, Search, Rss, Plus, type LucideIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import FaceNavItem from "@/components/ui/FaceNavItem";
 import CreateFaceModal from "@/components/face/CreateFaceModal";
 import { faceRepository } from "@/repositories/face-repository";
 import { userRepository } from "@/repositories/user-repository";
+import { useDetailPanel } from "@/lib/detail-panel-context";
 import type { Face } from "@/types/face";
 
 type NavItem = {
@@ -26,10 +27,17 @@ const NAV_ITEMS: NavItem[] = [
 
 const SideNav = () => {
   const pathname = usePathname();
+  const router = useRouter();
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
 
   const currentUser = userRepository.getCurrentUser();
   const faces = faceRepository.listByUserId(currentUser.id);
+  const { openFace } = useDetailPanel();
+
+  // パス名からアクティブなフェイスIDを導出
+  const activeFaceId = pathname.startsWith("/faces/")
+    ? pathname.split("/")[2]
+    : undefined;
 
   const handleOpenCreateModal = () => setIsCreateModalOpen(true);
   const handleCloseCreateModal = () => setIsCreateModalOpen(false);
@@ -38,9 +46,9 @@ const SideNav = () => {
     setIsCreateModalOpen(false);
   };
 
-  // TODO: Issue #79/#80 で DetailPanel との連携を追加する
-  const handleFaceNavItemClick = (_face: Face) => {
-    // DetailPanel にフェイス詳細を表示（未実装）
+  const handleFaceNavItemClick = (face: Face) => {
+    router.push(`/faces/${face.id}`);
+    openFace(face.id);
   };
 
   return (
@@ -102,6 +110,7 @@ const SideNav = () => {
             <FaceNavItem
               key={face.id}
               face={face}
+              activeFaceId={activeFaceId}
               onClick={handleFaceNavItemClick}
             />
           ))}
