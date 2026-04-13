@@ -13,6 +13,8 @@ export type ActivityRepository = {
   listAll: () => Activity[];
   /** 指定フェイスIDリストに含まれるアクティビティ一覧を取得（サブスク用・createdAt 降順） */
   listByFaceIds: (faceIds: string[]) => Activity[];
+  /** ID でアクティビティを1件取得（存在しない場合は undefined） */
+  findById: (activityId: string) => Activity | undefined;
 };
 
 // ─── モック実装 ────────────────────────────────────────────────
@@ -44,5 +46,9 @@ export const activityRepository: ActivityRepository = {
     return sortByCreatedAtDesc(
       activities.filter((activity) => faceIds.includes(activity.faceId))
     );
+  },
+
+  findById: (activityId) => {
+    return activities.find((activity) => activity.id === activityId);
   },
 };
