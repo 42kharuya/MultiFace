@@ -3,17 +3,13 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import {
-  Home,
-  Bell,
-  Search,
-  Rss,
-  Layers,
-  Pencil,
-  type LucideIcon,
-} from "lucide-react";
+import { Home, Bell, Search, Rss, Plus, type LucideIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
-import PostModal from "@/components/ui/PostModal";
+import FaceNavItem from "@/components/ui/FaceNavItem";
+import CreateFaceModal from "@/components/face/CreateFaceModal";
+import { faceRepository } from "@/repositories/face-repository";
+import { userRepository } from "@/repositories/user-repository";
+import type { Face } from "@/types/face";
 
 type NavItem = {
   href: string;
@@ -22,7 +18,6 @@ type NavItem = {
 };
 
 const NAV_ITEMS: NavItem[] = [
-  { href: "/faces", label: "フェイス", icon: Layers },
   { href: "/", label: "ホーム", icon: Home },
   { href: "/subscriptions", label: "サブスク", icon: Rss },
   { href: "/notifications", label: "通知", icon: Bell },
@@ -31,18 +26,30 @@ const NAV_ITEMS: NavItem[] = [
 
 const SideNav = () => {
   const pathname = usePathname();
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
 
-  const handleOpenModal = () => setIsModalOpen(true);
-  const handleCloseModal = () => setIsModalOpen(false);
+  const currentUser = userRepository.getCurrentUser();
+  const faces = faceRepository.listByUserId(currentUser.id);
+
+  const handleOpenCreateModal = () => setIsCreateModalOpen(true);
+  const handleCloseCreateModal = () => setIsCreateModalOpen(false);
+  const handleCreateFace = (_face: Face) => {
+    // モック実装: 作成後はモーダルを閉じるだけ（実際の永続化は行わない）
+    setIsCreateModalOpen(false);
+  };
+
+  // TODO: Issue #79/#80 で DetailPanel との連携を追加する
+  const handleFaceNavItemClick = (_face: Face) => {
+    // DetailPanel にフェイス詳細を表示（未実装）
+  };
 
   return (
     <>
-      <nav className="hidden md:flex flex-col gap-2 w-56 shrink-0 sticky top-0 h-screen pt-6 pb-6 px-3">
+      <nav className="hidden md:flex flex-col w-60 shrink-0 sticky top-0 h-screen overflow-y-auto pt-6 pb-6 px-3 border-r border-zinc-800">
         {/* ロゴ・アプリ名 */}
         <div className="px-3 pb-4">
           <span className="text-xl font-bold text-violet-400 tracking-tight">
-            Tricle_Mock
+            MultiFace
           </span>
         </div>
 
@@ -50,9 +57,10 @@ const SideNav = () => {
         <ul className="flex flex-col gap-1">
           {NAV_ITEMS.map((item) => {
             const isActive =
-            item.href === "/"
-              ? pathname === "/"
-              : pathname === item.href || pathname.startsWith(item.href + "/");
+              item.href === "/"
+                ? pathname === "/"
+                : pathname === item.href ||
+                  pathname.startsWith(item.href + "/");
             const Icon = item.icon;
             return (
               <li key={item.href}>
@@ -80,20 +88,41 @@ const SideNav = () => {
           })}
         </ul>
 
-        {/* 投稿ボタン */}
-        <div className="mt-4 px-1">
-          <button
-            type="button"
-            onClick={handleOpenModal}
-            className="flex w-full items-center justify-center gap-2 rounded-full bg-violet-600 px-4 py-2.5 text-sm font-semibold text-white transition-all duration-200 hover:bg-violet-500 active:scale-95 active:bg-violet-700"
-          >
-            <Pencil size={16} strokeWidth={2.5} />
-            <span>投稿する</span>
-          </button>
-        </div>
+        {/* 区切り線 */}
+        <hr className="my-3 border-t border-zinc-800" />
+
+        {/* フェイス一覧ラベル */}
+        <p className="px-3 mb-1 text-[12px] font-semibold uppercase tracking-wider text-zinc-600">
+          フェイス
+        </p>
+
+        {/* フェイスリスト */}
+        <ul className="flex flex-col gap-0.5">
+          {faces.map((face) => (
+            <FaceNavItem
+              key={face.id}
+              face={face}
+              onClick={handleFaceNavItemClick}
+            />
+          ))}
+        </ul>
+
+        {/* 新規フェイス作成ボタン */}
+        <button
+          type="button"
+          onClick={handleOpenCreateModal}
+          className="flex items-center gap-2 w-full rounded-xl px-3 py-2 mt-2 text-sm font-medium text-zinc-500 hover:bg-zinc-800 hover:text-zinc-300 border border-dashed border-zinc-700"
+        >
+          <Plus size={14} />
+          新規フェイス作成
+        </button>
       </nav>
 
-      <PostModal isOpen={isModalOpen} onClose={handleCloseModal} />
+      <CreateFaceModal
+        isOpen={isCreateModalOpen}
+        onClose={handleCloseCreateModal}
+        onCreate={handleCreateFace}
+      />
     </>
   );
 };
