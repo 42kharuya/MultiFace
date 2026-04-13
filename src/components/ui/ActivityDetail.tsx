@@ -62,7 +62,11 @@ const ActivityDetail = ({ activityId }: ActivityDetailProps) => {
     );
   }
 
-  const faceTitle = [face?.emoji, face?.name].filter(Boolean).join(" ");
+  const resolvedFaceTitle = [face?.emoji, face?.name]
+    .filter((value): value is string => Boolean(value && value.trim()))
+    .join(" ")
+    .trim();
+  const faceTitle = resolvedFaceTitle || activity.faceId || "不明なフェイス";
   const relativeTime = formatRelativeTime(activity.createdAt);
 
   return (
