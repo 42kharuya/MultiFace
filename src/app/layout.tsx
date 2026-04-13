@@ -23,6 +23,7 @@ export default function RootLayout({
     <html
       lang="ja"
       className={`${geistSans.variable} h-full antialiased dark scroll-smooth`}
+      data-scroll-behavior="smooth"
     >
       <body className="min-h-full bg-zinc-950 text-zinc-100">
         {/* PC: SideNav + メインコンテンツの2カラム、モバイル: max-w-sm 中央寄せ */}

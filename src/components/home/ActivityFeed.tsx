@@ -39,12 +39,17 @@ const ActivityFeed = ({ selectedFaceId }: ActivityFeedProps) => {
 
   return (
     <ul className="flex flex-col gap-3">
-      {displayActivities.map((activity) => {
+      {displayActivities.map((activity, index) => {
         const face = faceCache.get(activity.faceId);
         if (!face) return null;
         return (
           <li key={activity.id}>
-            <ActivityCard activity={activity} face={face} user={user} />
+            <ActivityCard
+              activity={activity}
+              face={face}
+              user={user}
+              priority={index === 0}
+            />
           </li>
         );
       })}

@@ -16,6 +16,8 @@ type ActivityCardProps = {
   faceTitle: string;
   /** フェイスチップの色決定に使用 */
   faceId: string;
+  /** true のとき最初の画像を優先読み込み（LCP 対策） */
+  priority?: boolean;
   className?: string;
 };
 
@@ -48,6 +50,7 @@ const ActivityCard = ({
   user,
   faceTitle,
   faceId,
+  priority = false,
   className,
 }: ActivityCardProps) => {
   const isLong = activity.body.length > COLLAPSE_THRESHOLD;
@@ -123,6 +126,8 @@ const ActivityCard = ({
                 fill
                 className="object-cover"
                 sizes="(max-width: 384px) 100vw, 192px"
+                priority={priority && i === 0}
+                loading={priority && i === 0 ? "eager" : "lazy"}
               />
             </div>
           ))}
