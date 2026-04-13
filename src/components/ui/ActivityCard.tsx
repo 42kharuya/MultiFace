@@ -10,6 +10,7 @@ import Badge from "./Badge";
 import FaceChip from "./FaceChip";
 import { cn } from "@/lib/utils";
 import { formatRelativeTime } from "@/lib/format-relative-time";
+import { useDetailPanel } from "@/lib/detail-panel-context";
 
 type ActivityCardProps = {
   activity: Activity;
@@ -35,6 +36,9 @@ const ActivityCard = ({
   className,
   onClick,
 }: ActivityCardProps) => {
+  const { state } = useDetailPanel();
+  const isSelected = state.type === "activity" && state.activityId === activity.id;
+
   const isLong = activity.body.length > COLLAPSE_THRESHOLD;
   const [expanded, setExpanded] = useState(false);
 
@@ -43,9 +47,15 @@ const ActivityCard = ({
       ? activity.body.slice(0, COLLAPSE_THRESHOLD) + "…"
       : activity.body;
 
+  const handleCardClick = () => {
+    if (onClick && window.innerWidth >= 768) {
+      onClick();
+    }
+  };
+
   return (
     <article
-      onClick={onClick}
+      onClick={handleCardClick}
       role={onClick ? "button" : undefined}
       tabIndex={onClick ? 0 : undefined}
       onKeyDown={
@@ -53,14 +63,19 @@ const ActivityCard = ({
           ? (e) => {
               if (e.key === "Enter" || e.key === " ") {
                 e.preventDefault();
-                onClick();
+                handleCardClick();
               }
             }
           : undefined
       }
       className={cn(
-        "flex flex-col gap-3 rounded-2xl bg-zinc-800/60 p-4 transition hover:bg-zinc-800 hover:scale-[1.01] active:scale-[0.99]",
-        onClick && "cursor-pointer",
+        "flex flex-col gap-3 rounded-2xl p-4 transition duration-200",
+        // 基本スタイル（通常時のホバー等のアニメーション）
+        !isSelected && "bg-zinc-800/60 hover:bg-zinc-800 hover:scale-[1.01] active:scale-[0.99]",
+        // PCクリック用
+        onClick && "md:cursor-pointer",
+        // 選択時スタイル: 【3. 背景全体を薄い紫に】
+        isSelected && "bg-violet-950/60 scale-[1.01]",
         className,
       )}
     >
