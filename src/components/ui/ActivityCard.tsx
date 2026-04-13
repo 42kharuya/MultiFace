@@ -99,7 +99,10 @@ const ActivityCard = ({
       {isLong && (
         <button
           type="button"
-          onClick={(e) => { e.stopPropagation(); setExpanded((prev) => !prev); }}
+          onClick={(e) => {
+              e.stopPropagation();
+              setExpanded((prev) => !prev);
+            }}
           className="self-start text-xs font-medium text-violet-400 hover:text-violet-300 transition-colors"
         >
           {expanded ? "折りたたむ" : "もっと見る"}

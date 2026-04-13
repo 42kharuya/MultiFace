@@ -1,5 +1,6 @@
 "use client";
 
+import { useMemo } from "react";
 import { X } from "lucide-react";
 import { faceRepository } from "@/repositories/face-repository";
 import { activityRepository } from "@/repositories/activity-repository";
@@ -17,6 +18,10 @@ const FaceDetail = ({ faceId }: FaceDetailProps) => {
 
   const face = faceRepository.findById(faceId);
   const currentUser = userRepository.getCurrentUser();
+  const userMap = useMemo(
+    () => new Map(userRepository.listAll().map((u) => [u.id, u])),
+    [],
+  );
 
   if (!face) {
     return (
@@ -41,7 +46,6 @@ const FaceDetail = ({ faceId }: FaceDetailProps) => {
 
   const activities = activityRepository.listByFaceId(faceId);
   const user = userRepository.findById(face.userId);
-  const userMap = new Map(userRepository.listAll().map((u) => [u.id, u]));
   const isOwner = face.userId === currentUser.id;
   const faceTitle = [face.emoji, face.name]
     .filter((value): value is string => Boolean(value && value.trim()))
