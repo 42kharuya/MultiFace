@@ -1,12 +1,11 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { X, ChevronDown, ImagePlus } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { faceRepository } from "@/repositories/face-repository";
+import { userRepository } from "@/repositories/user-repository";
 
-// ログインユーザー（モック）
-const MY_USER_ID = "user-1";
 const MAX_IMAGES = 4;
 
 type AttachedImage = {
@@ -22,10 +21,14 @@ type Props = {
 };
 
 const PostModal = ({ isOpen, onClose, defaultFaceId }: Props) => {
-  const myFaces = faceRepository.listByUserId(MY_USER_ID);
-  const [selectedFaceId, setSelectedFaceId] = useState<string>(
-    defaultFaceId ?? myFaces[0]?.id ?? "",
-  );
+  const currentUser = userRepository.getCurrentUser();
+  const myFaces = useMemo(() => {
+    return faceRepository.listByUserId(currentUser.id);
+  }, [currentUser.id]);
+  const initialSelectedFaceId = useMemo(() => {
+    return defaultFaceId ?? myFaces[0]?.id ?? "";
+  }, [defaultFaceId, myFaces]);
+  const [selectedFaceId, setSelectedFaceId] = useState<string>(initialSelectedFaceId);
   const [text, setText] = useState("");
   const [images, setImages] = useState<AttachedImage[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -41,8 +44,9 @@ const PostModal = ({ isOpen, onClose, defaultFaceId }: Props) => {
         return [];
       });
       setText("");
+      setSelectedFaceId(initialSelectedFaceId);
     }
-  }, [isOpen]);
+  }, [initialSelectedFaceId, isOpen]);
 
   // アンマウント時の残存 objectURL クリーンアップ
   useEffect(() => {

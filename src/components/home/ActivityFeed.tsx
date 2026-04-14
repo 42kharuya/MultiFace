@@ -4,7 +4,8 @@ import { activityRepository } from "@/repositories/activity-repository";
 import { faceRepository } from "@/repositories/face-repository";
 import { userRepository } from "@/repositories/user-repository";
 import { useDetailPanel } from "@/lib/detail-panel-context";
-import ActivityCard from "./ActivityCard";
+import { createLookupMap, getFaceTitle } from "@/lib/display";
+import ActivityCard from "@/components/ui/ActivityCard";
 
 type ActivityFeedProps = {
   /** フィルタするフェイス ID。null のときは全フェイスを表示 */
@@ -26,11 +27,12 @@ const ActivityFeed = ({ selectedFaceId }: ActivityFeedProps) => {
     : allActivities;
 
   // フェイスを O(1) で引けるようにマップ化
-  const faceCache = new Map(
-    displayActivities.map((a) => [
-      a.faceId,
-      faceRepository.findById(a.faceId),
-    ]),
+  const faceCache = createLookupMap(
+    displayActivities.flatMap((activity) => {
+      const face = faceRepository.findById(activity.faceId);
+      return face ? [face] : [];
+    }),
+    (face) => face.id,
   );
 
   if (displayActivities.length === 0) {
@@ -50,8 +52,9 @@ const ActivityFeed = ({ selectedFaceId }: ActivityFeedProps) => {
           <li key={activity.id}>
             <ActivityCard
               activity={activity}
-              face={face}
               user={user}
+              faceTitle={getFaceTitle(face)}
+              faceId={face.id}
               priority={index === 0}
               onClick={() => openActivity(activity.id)}
             />

@@ -7,6 +7,7 @@ import { activityRepository } from "@/repositories/activity-repository";
 import { faceRepository } from "@/repositories/face-repository";
 import { userRepository } from "@/repositories/user-repository";
 import { useDetailPanel } from "@/lib/detail-panel-context";
+import { getFaceTitle } from "@/lib/display";
 import Avatar from "./Avatar";
 import Badge from "./Badge";
 import FaceChip from "./FaceChip";
@@ -45,10 +46,7 @@ const ActivityDetail = ({ activityId }: ActivityDetailProps) => {
     );
   }
 
-  const resolvedFaceTitle = [face?.emoji, face?.name]
-    .filter((value): value is string => Boolean(value && value.trim()))
-    .join(" ")
-    .trim();
+  const resolvedFaceTitle = face ? getFaceTitle(face) : "";
   const faceTitle = resolvedFaceTitle || activity.faceId || "不明なフェイス";
   const relativeTime = formatRelativeTime(activity.createdAt);
 
