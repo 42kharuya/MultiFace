@@ -4,10 +4,11 @@ import { type Activity } from "@/types/activity";
 import { type User } from "@/types/user";
 import { type Face } from "@/types/face";
 import ActivityCard from "@/components/ui/ActivityCard";
+import { getFaceTitle } from "@/lib/display";
 import { cn } from "@/lib/utils";
 import { useDetailPanel } from "@/lib/detail-panel-context";
 
-type ActivityResultItem = {
+export type SearchActivityResultItem = {
   activity: Activity;
   user: User;
   face: Face;
@@ -15,7 +16,7 @@ type ActivityResultItem = {
 
 type SearchResultsProps = {
   query: string;
-  activityResults: ActivityResultItem[];
+  activityResults: SearchActivityResultItem[];
   faceResults: Face[];
   subscribedFaceIds: string[];
 };
@@ -139,7 +140,7 @@ const SearchResults = ({
                 <ActivityCard
                   activity={activity}
                   user={user}
-                  faceTitle={`${face.emoji ?? ""} ${face.name}`.trim()}
+                  faceTitle={getFaceTitle(face)}
                   faceId={face.id}
                   onClick={() => openActivity(activity.id)}
                 />

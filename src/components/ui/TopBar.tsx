@@ -2,10 +2,19 @@
 
 import { useState } from "react";
 import { Pencil } from "lucide-react";
+import { usePathname } from "next/navigation";
 import PostModal from "@/components/ui/PostModal";
 
 type TopBarProps = {
   pageTitle?: string;
+};
+
+const PAGE_TITLES: Record<string, string> = {
+  "/": "ホーム",
+  "/faces": "フェイス",
+  "/notifications": "通知",
+  "/search": "検索",
+  "/subscriptions": "サブスク",
 };
 
 /**
@@ -13,16 +22,21 @@ type TopBarProps = {
  * PC 表示時に SideNav の右側、MainColumn・DetailPanel の上部に共通表示される。
  */
 const TopBar = ({ pageTitle }: TopBarProps) => {
+  const pathname = usePathname();
   const [isPostModalOpen, setIsPostModalOpen] = useState(false);
 
   const handleOpen = () => setIsPostModalOpen(true);
   const handleClose = () => setIsPostModalOpen(false);
+  const resolvedPageTitle =
+    pageTitle ??
+    PAGE_TITLES[pathname] ??
+    (pathname.startsWith("/faces/") ? "フェイス詳細" : "MultiFace");
 
   return (
     <>
       <header className="hidden md:flex items-center justify-between sticky top-0 z-10 h-12 border-b border-zinc-800 bg-zinc-950/80 backdrop-blur-sm px-4">
         {/* 左側: 現在のページ名 */}
-        <span className="text-sm font-semibold text-zinc-400">{pageTitle}</span>
+        <span className="text-sm font-semibold text-zinc-400">{resolvedPageTitle}</span>
 
         {/* 右側: 投稿ボタン */}
         <button

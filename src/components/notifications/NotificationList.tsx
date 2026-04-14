@@ -8,6 +8,7 @@ import { activityRepository } from "@/repositories/activity-repository";
 import { type Notification } from "@/types/notification";
 import { type User } from "@/types/user";
 import { formatRelativeTime } from "@/lib/format-relative-time";
+import { createLookupMap, getFaceTitle } from "@/lib/display";
 import { cn } from "@/lib/utils";
 import { useDetailPanel } from "@/lib/detail-panel-context";
 
@@ -95,12 +96,10 @@ const NotificationList = () => {
   const notifications = notificationRepository.listAll();
 
   // ユーザー情報をマップ化
-  const userMap = new Map(userRepository.listAll().map((u) => [u.id, u]));
+  const userMap = createLookupMap(userRepository.listAll(), (user) => user.id);
 
   // アクティビティをマップ化（リンク通知のスニペット表示用）
-  const activityMap = new Map(
-    activityRepository.listAll().map((a) => [a.id, a])
-  );
+  const activityMap = createLookupMap(activityRepository.listAll(), (activity) => activity.id);
 
   if (notifications.length === 0) {
     return (
@@ -134,9 +133,7 @@ const NotificationList = () => {
 
         // subscribe
         const face = faceRepository.findById(notification.faceId);
-        const faceName = face
-          ? `${face.emoji ?? ""} ${face.name}`.trim()
-          : notification.faceId;
+        const faceName = face ? getFaceTitle(face) : notification.faceId;
         const detail = `${faceName} をサブスクライブしました`;
         return (
           <NotificationItem

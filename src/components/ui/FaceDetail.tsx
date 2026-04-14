@@ -1,11 +1,11 @@
 "use client";
 
-import { useMemo } from "react";
 import { X } from "lucide-react";
 import { faceRepository } from "@/repositories/face-repository";
 import { activityRepository } from "@/repositories/activity-repository";
 import { userRepository } from "@/repositories/user-repository";
 import { useDetailPanel } from "@/lib/detail-panel-context";
+import { createLookupMap, getFaceTitle } from "@/lib/display";
 import FaceHeader from "@/components/face/FaceHeader";
 import ActivityCard from "./ActivityCard";
 
@@ -18,10 +18,7 @@ const FaceDetail = ({ faceId }: FaceDetailProps) => {
 
   const face = faceRepository.findById(faceId);
   const currentUser = userRepository.getCurrentUser();
-  const userMap = useMemo(
-    () => new Map(userRepository.listAll().map((u) => [u.id, u])),
-    [],
-  );
+  const userMap = createLookupMap(userRepository.listAll(), (user) => user.id);
 
   if (!face) {
     return (
@@ -47,10 +44,7 @@ const FaceDetail = ({ faceId }: FaceDetailProps) => {
   const activities = activityRepository.listByFaceId(faceId);
   const user = userRepository.findById(face.userId);
   const isOwner = face.userId === currentUser.id;
-  const faceTitle = [face.emoji, face.name]
-    .filter((value): value is string => Boolean(value && value.trim()))
-    .join(" ")
-    .trim() || face.name;
+  const faceTitle = getFaceTitle(face) || face.name;
 
   return (
     <div className="flex flex-col h-full overflow-y-auto">

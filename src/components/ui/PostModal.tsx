@@ -4,9 +4,8 @@ import { useState, useRef, useEffect } from "react";
 import { X, ChevronDown, ImagePlus } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { faceRepository } from "@/repositories/face-repository";
+import { userRepository } from "@/repositories/user-repository";
 
-// ログインユーザー（モック）
-const MY_USER_ID = "user-1";
 const MAX_IMAGES = 4;
 
 type AttachedImage = {
@@ -22,7 +21,8 @@ type Props = {
 };
 
 const PostModal = ({ isOpen, onClose, defaultFaceId }: Props) => {
-  const myFaces = faceRepository.listByUserId(MY_USER_ID);
+  const currentUser = userRepository.getCurrentUser();
+  const myFaces = faceRepository.listByUserId(currentUser.id);
   const [selectedFaceId, setSelectedFaceId] = useState<string>(
     defaultFaceId ?? myFaces[0]?.id ?? "",
   );
@@ -41,8 +41,9 @@ const PostModal = ({ isOpen, onClose, defaultFaceId }: Props) => {
         return [];
       });
       setText("");
+      setSelectedFaceId(defaultFaceId ?? myFaces[0]?.id ?? "");
     }
-  }, [isOpen]);
+  }, [defaultFaceId, isOpen, myFaces]);
 
   // アンマウント時の残存 objectURL クリーンアップ
   useEffect(() => {

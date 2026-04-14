@@ -4,6 +4,7 @@ import { type Face } from "@/types/face";
 import { activityRepository } from "@/repositories/activity-repository";
 import { userRepository } from "@/repositories/user-repository";
 import { useDetailPanel } from "@/lib/detail-panel-context";
+import { createLookupMap, getFaceTitle } from "@/lib/display";
 import UIActivityCard from "@/components/ui/ActivityCard";
 
 type FaceActivityFeedProps = {
@@ -20,9 +21,8 @@ const FaceActivityFeed = ({ face }: FaceActivityFeedProps) => {
   const faceActivities = activityRepository.listByFaceId(face.id);
 
   // ユーザーを O(1) で引けるようにマップ化
-  const allUsers = userRepository.listAll();
-  const userMap = new Map(allUsers.map((u) => [u.id, u]));
-  const faceTitle = [face.emoji, face.name].filter(Boolean).join(" ");
+  const userMap = createLookupMap(userRepository.listAll(), (user) => user.id);
+  const faceTitle = getFaceTitle(face);
 
   if (faceActivities.length === 0) {
     return (

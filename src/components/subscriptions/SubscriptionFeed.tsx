@@ -7,6 +7,7 @@ import { userRepository } from "@/repositories/user-repository";
 import { subscriptionRepository } from "@/repositories/subscription-repository";
 import ActivityCard from "@/components/ui/ActivityCard";
 import { useDetailPanel } from "@/lib/detail-panel-context";
+import { createLookupMap, getFaceTitle } from "@/lib/display";
 
 /**
  * サブスク画面フィード。
@@ -25,16 +26,14 @@ const SubscriptionFeed = () => {
   const subscribedActivities = activityRepository.listByFaceIds(subscribedFaceIds);
 
   // O(1) で引けるようにマップ化
-  const faceMap = new Map(
-    subscribedFaceIds
-      .map((id) => [id, faceRepository.findById(id)] as const)
-      .filter((entry): entry is [string, NonNullable<ReturnType<typeof faceRepository.findById>>] =>
-        entry[1] !== undefined
-      )
+  const faceMap = createLookupMap(
+    subscribedFaceIds.flatMap((faceId) => {
+      const face = faceRepository.findById(faceId);
+      return face ? [face] : [];
+    }),
+    (face) => face.id,
   );
-  const userMap = new Map(
-    userRepository.listAll().map((u) => [u.id, u])
-  );
+  const userMap = createLookupMap(userRepository.listAll(), (user) => user.id);
 
   if (subscribedActivities.length === 0) {
     return (
@@ -64,7 +63,7 @@ const SubscriptionFeed = () => {
             <ActivityCard
               activity={activity}
               user={user}
-              faceTitle={`${face.emoji ?? ""} ${face.name}`.trim()}
+              faceTitle={getFaceTitle(face)}
               faceId={face.id}
               onClick={() => openActivity(activity.id)}
             />

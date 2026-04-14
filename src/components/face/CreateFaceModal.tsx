@@ -4,6 +4,8 @@ import { useState } from "react";
 import { X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { Face } from "@/types/face";
+import { faceRepository } from "@/repositories/face-repository";
+import { userRepository } from "@/repositories/user-repository";
 
 type Props = {
   isOpen: boolean;
@@ -22,14 +24,13 @@ const CreateFaceModal = ({ isOpen, onClose, onCreate }: Props) => {
   const handleSubmit = () => {
     if (!isValid) return;
 
-    const newFace: Face = {
-      id: `face-${crypto.randomUUID()}`,
-      userId: "user-1",
+    const currentUser = userRepository.getCurrentUser();
+    const newFace: Face = faceRepository.create(currentUser.id, {
       name: name.trim(),
       emoji: emoji.trim() || undefined,
       description: description.trim() || undefined,
       isPrivate,
-    };
+    });
 
     onCreate(newFace);
     handleClose();

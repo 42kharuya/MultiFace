@@ -47,8 +47,14 @@ const ActivityCard = ({
       ? activity.body.slice(0, COLLAPSE_THRESHOLD) + "…"
       : activity.body;
 
+  const canOpenDetail = Boolean(onClick);
+
+  const isDesktopViewport = () => {
+    return typeof window !== "undefined" && window.innerWidth >= 768;
+  };
+
   const handleCardClick = () => {
-    if (onClick && window.innerWidth >= 768) {
+    if (onClick && isDesktopViewport()) {
       onClick();
     }
   };
@@ -59,7 +65,7 @@ const ActivityCard = ({
       role={onClick ? "button" : undefined}
       tabIndex={onClick ? 0 : undefined}
       onKeyDown={
-        onClick
+        canOpenDetail
           ? (e) => {
               if (e.key === "Enter" || e.key === " ") {
                 e.preventDefault();
@@ -73,7 +79,7 @@ const ActivityCard = ({
         // 基本スタイル（通常時のホバー等のアニメーション）
         !isSelected && "bg-zinc-800/60 hover:bg-zinc-800 hover:scale-[1.01] active:scale-[0.99]",
         // PCクリック用
-        onClick && "md:cursor-pointer",
+        canOpenDetail && "md:cursor-pointer",
         // 選択時スタイル: 【3. 背景全体を薄い紫に】
         isSelected && "bg-violet-950/60 scale-[1.01]",
         className,
